@@ -68,6 +68,7 @@ function setupDraftOrScheduledPostRssFeedContent( $query ) {
 
 	if ($query->is_feed('drafts' ) ) {
 		$query->set( 'post_status', array('draft') );
+		$query->set( 'posts_per_rss', 50 );
 	}
 
 	if ($query->is_feed('scheduled' ) ) {
