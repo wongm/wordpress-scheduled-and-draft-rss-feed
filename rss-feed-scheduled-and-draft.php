@@ -3,8 +3,8 @@
 Plugin Name: RSS feeds for scheduled and draft posts
 Description: Expose Wordpress RSS feeds for scheduled and draft posts
 
-Add WP RSS Aggregator plugin:
-https://wordpress.org/plugins/wp-rss-aggregator/
+Add WordPress RSS Feed Retriever plugin:
+https://wordpress.org/plugins/wp-rss-retriever/
 
 Add Patreon plugin:
 https://wordpress.org/plugins/patreon-connect/
@@ -34,38 +34,8 @@ function initDraftPlusScheduledPostRssFeeds() {
 	add_feed('scheduled', 'renderDraftOrScheduledPostRssFeed');
 	add_action( 'pre_get_posts', 'setupDraftOrScheduledPostRssFeedContent' );
 	add_filter( 'query_vars', 'addVarsForDraftOrScheduledPostRssFeed' );
-	
-	
-	add_filter( 'wprss_display_feed_items_query', 'filterDraftOrScheduledPostRssFeed', 10, 2 );
-	
-	add_filter( 'wprss_single_feed_output', 'editwprss_single_feed_output' );
-	add_filter( 'wprss_populate_post_data', 'eponies_strip_tags', 10, 2 );
-	
 }
 
-	
-	
-function eponies_strip_tags( $args, $item ) {
-	$args['post_content'] = html_entity_decode($item->get_description());
-	return $args;
-}
-
-function editwprss_single_feed_output( $output ) {
-	$output .= get_the_content();
-	return $output;
-}
-
-
-
-function filterDraftOrScheduledPostRssFeed( $args, $settings ) {
-	// to show both future-dated and past items
-	$args['post_status'] = array('publish', 'future');
-	if ( $args['meta_query'][0][value][0] != 44)  //magic number
-	{
-		$args['order'] = 'ASC';
-	}
-	return $args;
-}
 
 function addVarsForDraftOrScheduledPostRssFeed( $vars ) {
 	$vars[] = "key";
